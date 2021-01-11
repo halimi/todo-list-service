@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package todolist;
+
+option go_package = "todolistpb";
+
+import "google/protobuf/timestamp.proto";
+
+message Todo {
+    int32 id = 1;
+    string title = 2;
+    string note = 3;
+    google.protobuf.Timestamp due_date = 4;
+}
+
+message CreateTodoRequest {
+    Todo todo = 1;
+}
+
+message CreateTodoResponse {
+    Todo todo = 1;
+}
+
+service TodoListService {
+    rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse);
+}
