@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/halimi/todo-list-service/db"
 	"github.com/halimi/todo-list-service/server"
 	"github.com/halimi/todo-list-service/todolistpb"
 )
@@ -17,6 +18,12 @@ import (
 func main() {
 	// set the flags to get the file name and line number
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	postgres := &db.Postgres{db.Setup()}
+
+	if postgres == nil {
+		panic("postgres is nil")
+	}
 
 	lis, err := net.Listen("tcp", "0.0.0.0:5000")
 	if err != nil {
@@ -26,7 +33,7 @@ func main() {
 	opts := []grpc.ServerOption{}
 	s := grpc.NewServer(opts...)
 
-	todolistpb.RegisterTodoListServiceServer(s, &server.Server{})
+	todolistpb.RegisterTodoListServiceServer(s, &server.Server{postgres})
 	reflection.Register(s)
 
 	go func() {
@@ -42,6 +49,11 @@ func main() {
 
 	// Block until a signal is received
 	<-ch
+
+	fmt.Println("Closing Postgres connection")
+	if err := postgres.Close(); err != nil {
+		log.Fatalf("Error on closing the database: %v", err)
+	}
 
 	fmt.Println("Closing the listener")
 	if err := lis.Close(); err != nil {
