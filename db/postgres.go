@@ -120,6 +120,26 @@ func (p *Postgres) Update(todo *todolistpb.Todo) (*todolistpb.Todo, error) {
 	return &t, nil
 }
 
+// Delete is deleting the data from the database
+func (p *Postgres) Delete(id int32) (int64, error) {
+	query := `
+	DELETE FROM todo
+	WHERE id = $1;
+	`
+
+	res, err := p.DB.Exec(query, id)
+	if err != nil {
+		return -1, err
+	}
+
+	count, err := res.RowsAffected()
+	if err != nil {
+		return -1, err
+	}
+
+	return count, nil
+}
+
 // Setup the databse
 func Setup() *sql.DB {
 	db, err := ConnectPostgres()

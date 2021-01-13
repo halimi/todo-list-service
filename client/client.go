@@ -63,6 +63,17 @@ func updateTodo(c todolistpb.TodoListServiceClient, id int32) {
 	printTodo(resTodo)
 }
 
+func deleteTodo(c todolistpb.TodoListServiceClient, id int32) {
+	fmt.Println("Deleting Todo")
+
+	_, err := c.DeleteTodo(context.Background(), &todolistpb.DeleteTodoRequest{TodoId: id})
+	if err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
+
+	fmt.Println("Successfully deleted:", id)
+}
+
 func main() {
 	fmt.Println("Todo List Client")
 
@@ -81,4 +92,6 @@ func main() {
 	readTodo(c, id)
 
 	updateTodo(c, id)
+
+	deleteTodo(c, id)
 }

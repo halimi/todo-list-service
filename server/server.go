@@ -44,6 +44,13 @@ func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) 
 	fmt.Println("Read todo request")
 	todoID := req.GetTodoId()
 
+	if todoID == 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Could not get ID"),
+		)
+	}
+
 	todo, err := s.Postgres.Get(todoID)
 	if err != nil {
 		return nil, status.Errorf(
@@ -94,4 +101,34 @@ func (s *Server) UpdateTodo(ctx context.Context, req *todolistpb.UpdateTodoReque
 	return &todolistpb.UpdateTodoResponse{
 		Todo: todoNew,
 	}, nil
+}
+
+// DeleteTodo request handler
+func (s *Server) DeleteTodo(ctx context.Context, req *todolistpb.DeleteTodoRequest) (*todolistpb.DeleteTodoResponse, error) {
+	fmt.Println("Delete todo request")
+	todoID := req.GetTodoId()
+
+	if todoID == 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Could not get ID"),
+		)
+	}
+
+	count, err := s.Postgres.Delete(todoID)
+	if err != nil {
+		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+
+	if count == 0 {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Could not found Todo with the specified ID: %v", todoID),
+		)
+	}
+
+	return &todolistpb.DeleteTodoResponse{}, nil
 }
