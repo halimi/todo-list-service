@@ -140,6 +140,38 @@ func (p *Postgres) Delete(id int32) (int64, error) {
 	return count, nil
 }
 
+// List is listing the data
+func (p *Postgres) List() ([]*todolistpb.Todo, error) {
+	query := `
+	SELECT *
+	FROM todo
+	ORDER BY id;
+	`
+
+	rows, err := p.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	var todoList []*todolistpb.Todo
+	for rows.Next() {
+		var t todolistpb.Todo
+		var ts time.Time
+
+		if err := rows.Scan(&t.Id, &t.Title, &t.Note, &ts); err != nil {
+			return nil, err
+		}
+
+		t.DueDate, err = ptypes.TimestampProto(ts)
+		if err != nil {
+			return nil, err
+		}
+		todoList = append(todoList, &t)
+	}
+
+	return todoList, nil
+}
+
 // Setup the databse
 func Setup() *sql.DB {
 	db, err := ConnectPostgres()

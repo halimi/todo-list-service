@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/golang/protobuf/ptypes"
@@ -74,6 +75,25 @@ func deleteTodo(c todolistpb.TodoListServiceClient, id int32) {
 	fmt.Println("Successfully deleted:", id)
 }
 
+func listTodos(c todolistpb.TodoListServiceClient) {
+	fmt.Println("Listing Todos")
+
+	stream, err := c.ListTodos(context.Background(), &todolistpb.ListTodosRequest{})
+	if err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Stream error: %v", err)
+		}
+		printTodo(res.GetTodo())
+	}
+}
+
 func main() {
 	fmt.Println("Todo List Client")
 
@@ -92,6 +112,8 @@ func main() {
 	readTodo(c, id)
 
 	updateTodo(c, id)
+
+	listTodos(c)
 
 	deleteTodo(c, id)
 }

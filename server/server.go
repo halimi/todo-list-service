@@ -132,3 +132,22 @@ func (s *Server) DeleteTodo(ctx context.Context, req *todolistpb.DeleteTodoReque
 
 	return &todolistpb.DeleteTodoResponse{}, nil
 }
+
+// ListTodos request handler
+func (s *Server) ListTodos(req *todolistpb.ListTodosRequest, stream todolistpb.TodoListService_ListTodosServer) error {
+	fmt.Println("List todos request")
+
+	todoList, err := s.Postgres.List()
+	if err != nil {
+		return status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+
+	for _, todo := range todoList {
+		stream.Send(&todolistpb.ListTodosResponse{Todo: todo})
+	}
+
+	return nil
+}
