@@ -46,6 +46,23 @@ func readTodo(c todolistpb.TodoListServiceClient, id int32) {
 	printTodo(resTodo)
 }
 
+func updateTodo(c todolistpb.TodoListServiceClient, id int32) {
+	fmt.Println("Updating Todo")
+	todo := &todolistpb.Todo{
+		Id:      id,
+		Title:   "Updated Todo",
+		Note:    "This is an updated test",
+		DueDate: ptypes.TimestampNow(),
+	}
+
+	res, err := c.UpdateTodo(context.Background(), &todolistpb.UpdateTodoRequest{Todo: todo})
+	if err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
+	resTodo := res.GetTodo()
+	printTodo(resTodo)
+}
+
 func main() {
 	fmt.Println("Todo List Client")
 
@@ -62,4 +79,6 @@ func main() {
 	id := createTodo(c)
 
 	readTodo(c, id)
+
+	updateTodo(c, id)
 }

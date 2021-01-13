@@ -86,6 +86,40 @@ func (p *Postgres) Get(id int32) (*todolistpb.Todo, error) {
 	return &t, nil
 }
 
+// Update is updating the data in the database
+func (p *Postgres) Update(todo *todolistpb.Todo) (*todolistpb.Todo, error) {
+	query := `
+	UPDATE todo
+	SET title = $1, note = $2, due_date = $3
+	WHERE id = $4
+	RETURNING id, title, note, due_date;
+	`
+
+	ts, err := ptypes.Timestamp(todo.GetDueDate())
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := p.DB.Query(query, todo.GetTitle(), todo.GetNote(), ts, todo.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	var t todolistpb.Todo
+	for rows.Next() {
+		if err := rows.Scan(&t.Id, &t.Title, &t.Note, &ts); err != nil {
+			return nil, err
+		}
+	}
+
+	t.DueDate, err = ptypes.TimestampProto(ts)
+	if err != nil {
+		return nil, err
+	}
+
+	return &t, nil
+}
+
 // Setup the databse
 func Setup() *sql.DB {
 	db, err := ConnectPostgres()

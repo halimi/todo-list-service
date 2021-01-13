@@ -47,12 +47,51 @@ func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) 
 	todo, err := s.Postgres.Get(todoID)
 	if err != nil {
 		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+
+	if todo.GetId() == 0 {
+		return nil, status.Errorf(
 			codes.NotFound,
-			fmt.Sprintf("Could not found todo with the specified ID: %v", err),
+			fmt.Sprintf("Could not found Todo with the specified ID: %v", todoID),
 		)
 	}
 
 	return &todolistpb.ReadTodoResponse{
 		Todo: todo,
+	}, nil
+}
+
+// UpdateTodo request handler
+func (s *Server) UpdateTodo(ctx context.Context, req *todolistpb.UpdateTodoRequest) (*todolistpb.UpdateTodoResponse, error) {
+	fmt.Println("Update Todo request")
+	todo := req.GetTodo()
+
+	if todo.GetId() == 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Could not get ID"),
+		)
+	}
+
+	todoNew, err := s.Postgres.Update(todo)
+	if err != nil {
+		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+
+	if todoNew.GetId() == 0 {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Could not found Todo with the specified ID: %v", todo.GetId()),
+		)
+	}
+
+	return &todolistpb.UpdateTodoResponse{
+		Todo: todoNew,
 	}, nil
 }

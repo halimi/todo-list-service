@@ -284,6 +284,100 @@ func (x *ReadTodoResponse) GetTodo() *Todo {
 	return nil
 }
 
+type UpdateTodoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Todo *Todo `protobuf:"bytes,1,opt,name=todo,proto3" json:"todo,omitempty"`
+}
+
+func (x *UpdateTodoRequest) Reset() {
+	*x = UpdateTodoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_todolistpb_todolist_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateTodoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTodoRequest) ProtoMessage() {}
+
+func (x *UpdateTodoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_todolistpb_todolist_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTodoRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTodoRequest) Descriptor() ([]byte, []int) {
+	return file_todolistpb_todolist_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateTodoRequest) GetTodo() *Todo {
+	if x != nil {
+		return x.Todo
+	}
+	return nil
+}
+
+type UpdateTodoResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Todo *Todo `protobuf:"bytes,1,opt,name=todo,proto3" json:"todo,omitempty"`
+}
+
+func (x *UpdateTodoResponse) Reset() {
+	*x = UpdateTodoResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_todolistpb_todolist_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateTodoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTodoResponse) ProtoMessage() {}
+
+func (x *UpdateTodoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_todolistpb_todolist_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTodoResponse.ProtoReflect.Descriptor instead.
+func (*UpdateTodoResponse) Descriptor() ([]byte, []int) {
+	return file_todolistpb_todolist_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateTodoResponse) GetTodo() *Todo {
+	if x != nil {
+		return x.Todo
+	}
+	return nil
+}
+
 var File_todolistpb_todolist_proto protoreflect.FileDescriptor
 
 var file_todolistpb_todolist_proto_rawDesc = []byte{
@@ -312,18 +406,30 @@ var file_todolistpb_todolist_proto_rawDesc = []byte{
 	0x0a, 0x10, 0x52, 0x65, 0x61, 0x64, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x22, 0x0a, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x0e, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x54, 0x6f, 0x64, 0x6f,
-	0x52, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x32, 0x9d, 0x01, 0x0a, 0x0f, 0x54, 0x6f, 0x64, 0x6f, 0x4c,
-	0x69, 0x73, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x47, 0x0a, 0x0a, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x12, 0x1b, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c,
+	0x52, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x22, 0x37, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x22, 0x0a, 0x04, 0x74,
+	0x6f, 0x64, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x74, 0x6f, 0x64, 0x6f,
+	0x6c, 0x69, 0x73, 0x74, 0x2e, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x22,
+	0x38, 0x0a, 0x12, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x22, 0x0a, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x54,
+	0x6f, 0x64, 0x6f, 0x52, 0x04, 0x74, 0x6f, 0x64, 0x6f, 0x32, 0xe6, 0x01, 0x0a, 0x0f, 0x54, 0x6f,
+	0x64, 0x6f, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x47, 0x0a,
+	0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x12, 0x1b, 0x2e, 0x74, 0x6f,
+	0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64,
+	0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c,
 	0x69, 0x73, 0x74, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74,
-	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x08, 0x52, 0x65, 0x61, 0x64, 0x54, 0x6f, 0x64, 0x6f, 0x12,
-	0x19, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x54,
-	0x6f, 0x64, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x74, 0x6f, 0x64,
-	0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x0c, 0x5a, 0x0a, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69,
-	0x73, 0x74, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x08, 0x52, 0x65, 0x61, 0x64, 0x54, 0x6f,
+	0x64, 0x6f, 0x12, 0x19, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x52, 0x65,
+	0x61, 0x64, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e,
+	0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x54, 0x6f, 0x64,
+	0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x47, 0x0a, 0x0a, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x12, 0x1b, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69,
+	0x73, 0x74, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x64, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x42, 0x0c, 0x5a, 0x0a, 0x74, 0x6f, 0x64, 0x6f, 0x6c, 0x69, 0x73, 0x74, 0x70, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -338,29 +444,35 @@ func file_todolistpb_todolist_proto_rawDescGZIP() []byte {
 	return file_todolistpb_todolist_proto_rawDescData
 }
 
-var file_todolistpb_todolist_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_todolistpb_todolist_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_todolistpb_todolist_proto_goTypes = []interface{}{
 	(*Todo)(nil),                // 0: todolist.Todo
 	(*CreateTodoRequest)(nil),   // 1: todolist.CreateTodoRequest
 	(*CreateTodoResponse)(nil),  // 2: todolist.CreateTodoResponse
 	(*ReadTodoRequest)(nil),     // 3: todolist.ReadTodoRequest
 	(*ReadTodoResponse)(nil),    // 4: todolist.ReadTodoResponse
-	(*timestamp.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*UpdateTodoRequest)(nil),   // 5: todolist.UpdateTodoRequest
+	(*UpdateTodoResponse)(nil),  // 6: todolist.UpdateTodoResponse
+	(*timestamp.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_todolistpb_todolist_proto_depIdxs = []int32{
-	5, // 0: todolist.Todo.due_date:type_name -> google.protobuf.Timestamp
+	7, // 0: todolist.Todo.due_date:type_name -> google.protobuf.Timestamp
 	0, // 1: todolist.CreateTodoRequest.todo:type_name -> todolist.Todo
 	0, // 2: todolist.CreateTodoResponse.todo:type_name -> todolist.Todo
 	0, // 3: todolist.ReadTodoResponse.todo:type_name -> todolist.Todo
-	1, // 4: todolist.TodoListService.CreateTodo:input_type -> todolist.CreateTodoRequest
-	3, // 5: todolist.TodoListService.ReadTodo:input_type -> todolist.ReadTodoRequest
-	2, // 6: todolist.TodoListService.CreateTodo:output_type -> todolist.CreateTodoResponse
-	4, // 7: todolist.TodoListService.ReadTodo:output_type -> todolist.ReadTodoResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0, // 4: todolist.UpdateTodoRequest.todo:type_name -> todolist.Todo
+	0, // 5: todolist.UpdateTodoResponse.todo:type_name -> todolist.Todo
+	1, // 6: todolist.TodoListService.CreateTodo:input_type -> todolist.CreateTodoRequest
+	3, // 7: todolist.TodoListService.ReadTodo:input_type -> todolist.ReadTodoRequest
+	5, // 8: todolist.TodoListService.UpdateTodo:input_type -> todolist.UpdateTodoRequest
+	2, // 9: todolist.TodoListService.CreateTodo:output_type -> todolist.CreateTodoResponse
+	4, // 10: todolist.TodoListService.ReadTodo:output_type -> todolist.ReadTodoResponse
+	6, // 11: todolist.TodoListService.UpdateTodo:output_type -> todolist.UpdateTodoResponse
+	9, // [9:12] is the sub-list for method output_type
+	6, // [6:9] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_todolistpb_todolist_proto_init() }
@@ -429,6 +541,30 @@ func file_todolistpb_todolist_proto_init() {
 				return nil
 			}
 		}
+		file_todolistpb_todolist_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateTodoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_todolistpb_todolist_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateTodoResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -436,7 +572,7 @@ func file_todolistpb_todolist_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_todolistpb_todolist_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -464,6 +600,7 @@ const _ = grpc.SupportPackageIsVersion6
 type TodoListServiceClient interface {
 	CreateTodo(ctx context.Context, in *CreateTodoRequest, opts ...grpc.CallOption) (*CreateTodoResponse, error)
 	ReadTodo(ctx context.Context, in *ReadTodoRequest, opts ...grpc.CallOption) (*ReadTodoResponse, error)
+	UpdateTodo(ctx context.Context, in *UpdateTodoRequest, opts ...grpc.CallOption) (*UpdateTodoResponse, error)
 }
 
 type todoListServiceClient struct {
@@ -492,10 +629,20 @@ func (c *todoListServiceClient) ReadTodo(ctx context.Context, in *ReadTodoReques
 	return out, nil
 }
 
+func (c *todoListServiceClient) UpdateTodo(ctx context.Context, in *UpdateTodoRequest, opts ...grpc.CallOption) (*UpdateTodoResponse, error) {
+	out := new(UpdateTodoResponse)
+	err := c.cc.Invoke(ctx, "/todolist.TodoListService/UpdateTodo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TodoListServiceServer is the server API for TodoListService service.
 type TodoListServiceServer interface {
 	CreateTodo(context.Context, *CreateTodoRequest) (*CreateTodoResponse, error)
 	ReadTodo(context.Context, *ReadTodoRequest) (*ReadTodoResponse, error)
+	UpdateTodo(context.Context, *UpdateTodoRequest) (*UpdateTodoResponse, error)
 }
 
 // UnimplementedTodoListServiceServer can be embedded to have forward compatible implementations.
@@ -507,6 +654,9 @@ func (*UnimplementedTodoListServiceServer) CreateTodo(context.Context, *CreateTo
 }
 func (*UnimplementedTodoListServiceServer) ReadTodo(context.Context, *ReadTodoRequest) (*ReadTodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadTodo not implemented")
+}
+func (*UnimplementedTodoListServiceServer) UpdateTodo(context.Context, *UpdateTodoRequest) (*UpdateTodoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodo not implemented")
 }
 
 func RegisterTodoListServiceServer(s *grpc.Server, srv TodoListServiceServer) {
@@ -549,6 +699,24 @@ func _TodoListService_ReadTodo_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TodoListService_UpdateTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTodoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TodoListServiceServer).UpdateTodo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/todolist.TodoListService/UpdateTodo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TodoListServiceServer).UpdateTodo(ctx, req.(*UpdateTodoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _TodoListService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "todolist.TodoListService",
 	HandlerType: (*TodoListServiceServer)(nil),
@@ -560,6 +728,10 @@ var _TodoListService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadTodo",
 			Handler:    _TodoListService_ReadTodo_Handler,
+		},
+		{
+			MethodName: "UpdateTodo",
+			Handler:    _TodoListService_UpdateTodo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
