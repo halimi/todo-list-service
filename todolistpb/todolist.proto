@@ -21,6 +21,15 @@ message CreateTodoResponse {
     Todo todo = 1;
 }
 
+message ReadTodoRequest {
+    int32 todo_id = 1;
+}
+
+message ReadTodoResponse {
+    Todo todo = 1;
+}
+
 service TodoListService {
     rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse);
+    rpc ReadTodo(ReadTodoRequest) returns (ReadTodoResponse);  // return NOT_FOUND if not found
 }

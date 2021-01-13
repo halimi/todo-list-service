@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"log"
+	"time"
 
 	"github.com/golang/protobuf/ptypes"
 	"github.com/halimi/todo-list-service/todolistpb"
@@ -55,6 +56,34 @@ func (p *Postgres) Insert(todo *todolistpb.Todo) (int32, error) {
 	}
 
 	return id, nil
+}
+
+// Get is getting the data from the database
+func (p *Postgres) Get(id int32) (*todolistpb.Todo, error) {
+	query := `
+	SELECT *
+	FROM todo
+	WHERE id = $1;
+	`
+
+	rows, err := p.DB.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var t todolistpb.Todo
+	var ts time.Time
+	for rows.Next() {
+		if err := rows.Scan(&t.Id, &t.Title, &t.Note, &ts); err != nil {
+			return nil, err
+		}
+	}
+
+	t.DueDate, err = ptypes.TimestampProto(ts)
+	if err != nil {
+		return nil, err
+	}
+	return &t, nil
 }
 
 // Setup the databse

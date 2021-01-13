@@ -10,7 +10,15 @@ import (
 	"google.golang.org/grpc"
 )
 
-func createTodo(c todolistpb.TodoListServiceClient) {
+func printTodo(t *todolistpb.Todo) {
+	fmt.Println("Todo:")
+	fmt.Println("  Id:", t.GetId())
+	fmt.Println("  Title:", t.GetTitle())
+	fmt.Println("  Note:", t.GetNote())
+	fmt.Println("  Due date:", ptypes.TimestampString(t.GetDueDate()))
+}
+
+func createTodo(c todolistpb.TodoListServiceClient) int32 {
 	fmt.Println("Creating Todo")
 	todo := &todolistpb.Todo{
 		Title:   "First Todo",
@@ -19,14 +27,23 @@ func createTodo(c todolistpb.TodoListServiceClient) {
 	}
 	res, err := c.CreateTodo(context.Background(), &todolistpb.CreateTodoRequest{Todo: todo})
 	if err != nil {
-		log.Fatalf("Unexpected error: %v", err)
+		log.Fatalf("Server error: %v", err)
 	}
 	resTodo := res.GetTodo()
-	fmt.Println("Todo has been created:")
-	fmt.Println("  Id:", resTodo.GetId())
-	fmt.Println("  Title:", resTodo.GetTitle())
-	fmt.Println("  Note:", resTodo.GetNote())
-	fmt.Println("  Due date:", ptypes.TimestampString(resTodo.GetDueDate()))
+	printTodo(resTodo)
+
+	return resTodo.GetId()
+}
+
+func readTodo(c todolistpb.TodoListServiceClient, id int32) {
+	fmt.Println("Reading Todo")
+
+	res, err := c.ReadTodo(context.Background(), &todolistpb.ReadTodoRequest{TodoId: id})
+	if err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
+	resTodo := res.GetTodo()
+	printTodo(resTodo)
 }
 
 func main() {
@@ -42,5 +59,7 @@ func main() {
 
 	c := todolistpb.NewTodoListServiceClient(cc)
 
-	createTodo(c)
+	id := createTodo(c)
+
+	readTodo(c, id)
 }

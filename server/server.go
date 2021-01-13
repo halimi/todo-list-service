@@ -38,3 +38,21 @@ func (s *Server) CreateTodo(ctx context.Context, req *todolistpb.CreateTodoReque
 		},
 	}, nil
 }
+
+// ReadTodo request handler
+func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) (*todolistpb.ReadTodoResponse, error) {
+	fmt.Println("Read todo request")
+	todoID := req.GetTodoId()
+
+	todo, err := s.Postgres.Get(todoID)
+	if err != nil {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Could not found todo with the specified ID: %v", err),
+		)
+	}
+
+	return &todolistpb.ReadTodoResponse{
+		Todo: todo,
+	}, nil
+}
