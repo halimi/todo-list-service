@@ -11,7 +11,9 @@ import (
 )
 
 const createTable = `
+DROP SEQUENCE IF EXISTS todo_id;
 DROP TABLE IF EXISTS todo;
+CREATE SEQUENCE todo_id START 1;
 CREATE TABLE todo (
 	ID serial PRIMARY KEY,
 	TITLE TEXT NOT NULL,
