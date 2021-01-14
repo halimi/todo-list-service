@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -13,13 +14,29 @@ import (
 	"github.com/halimi/todo-list-service/db"
 	"github.com/halimi/todo-list-service/server"
 	"github.com/halimi/todo-list-service/todolistpb"
+
+	"github.com/kouhin/envflag"
 )
 
 func main() {
 	// set the flags to get the file name and line number
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	postgres := &db.Postgres{db.Setup()}
+	dbUser := flag.String("db-user", "postgres", "DB user name")
+	dbPass := flag.String("db-pass", "postgres", "DB password")
+	dbHost := flag.String("db-host", "localhost", "DB host name")
+	dbPort := flag.String("db-port", "5432", "DB port number")
+
+	envflag.Parse()
+
+	config := &db.PostgresConfig{
+		User:     *dbUser,
+		Password: *dbPass,
+		Host:     *dbHost,
+		Port:     *dbPort,
+	}
+
+	postgres := &db.Postgres{db.Setup(config)}
 
 	if postgres == nil {
 		panic("postgres is nil")

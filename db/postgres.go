@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -21,6 +22,14 @@ CREATE TABLE todo (
 	DUE_DATE TIMESTAMP WITH TIME ZONE
 );
 `
+
+// PostgresConfig holds the configs
+type PostgresConfig struct {
+	User     string
+	Password string
+	Host     string
+	Port     string
+}
 
 // Postgres sql interface
 type Postgres struct {
@@ -175,8 +184,8 @@ func (p *Postgres) List() ([]*todolistpb.Todo, error) {
 }
 
 // Setup the databse
-func Setup() *sql.DB {
-	db, err := ConnectPostgres()
+func Setup(c *PostgresConfig) *sql.DB {
+	db, err := ConnectPostgres(c)
 	if err != nil {
 		log.Fatalf("Could not connect to the database: %v", err)
 	}
@@ -189,8 +198,8 @@ func Setup() *sql.DB {
 }
 
 // ConnectPostgres is connecting to a Postgres database
-func ConnectPostgres() (*sql.DB, error) {
-	connStr := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+func ConnectPostgres(c *PostgresConfig) (*sql.DB, error) {
+	connStr := fmt.Sprintf("postgres://%v:%v@%v:%v/postgres?sslmode=disable", c.User, c.Password, c.Host, c.Port)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
