@@ -13,15 +13,16 @@ import (
 
 // Server is implementing TodoListServiceServer interface
 type Server struct {
-	Postgres *db.Postgres
+	Repo db.Repository
 }
 
 // CreateTodo request handler
 func (s *Server) CreateTodo(ctx context.Context, req *todolistpb.CreateTodoRequest) (*todolistpb.CreateTodoResponse, error) {
 	fmt.Println("Create Todo request")
+	ctx = db.SetRepository(ctx, s.Repo)
 	todo := req.GetTodo()
 
-	id, err := s.Postgres.Insert(todo)
+	id, err := db.Insert(ctx, todo)
 	if err != nil {
 		return nil, status.Errorf(
 			codes.Internal,
@@ -42,6 +43,7 @@ func (s *Server) CreateTodo(ctx context.Context, req *todolistpb.CreateTodoReque
 // ReadTodo request handler
 func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) (*todolistpb.ReadTodoResponse, error) {
 	fmt.Println("Read todo request")
+	ctx = db.SetRepository(ctx, s.Repo)
 	todoID := req.GetTodoId()
 
 	if todoID == 0 {
@@ -51,7 +53,7 @@ func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) 
 		)
 	}
 
-	todo, err := s.Postgres.Get(todoID)
+	todo, err := db.Get(ctx, todoID)
 	if err != nil {
 		return nil, status.Errorf(
 			codes.Internal,
@@ -74,6 +76,7 @@ func (s *Server) ReadTodo(ctx context.Context, req *todolistpb.ReadTodoRequest) 
 // UpdateTodo request handler
 func (s *Server) UpdateTodo(ctx context.Context, req *todolistpb.UpdateTodoRequest) (*todolistpb.UpdateTodoResponse, error) {
 	fmt.Println("Update Todo request")
+	ctx = db.SetRepository(ctx, s.Repo)
 	todo := req.GetTodo()
 
 	if todo.GetId() == 0 {
@@ -83,7 +86,7 @@ func (s *Server) UpdateTodo(ctx context.Context, req *todolistpb.UpdateTodoReque
 		)
 	}
 
-	todoNew, err := s.Postgres.Update(todo)
+	todoNew, err := db.Update(ctx, todo)
 	if err != nil {
 		return nil, status.Errorf(
 			codes.Internal,
@@ -106,6 +109,7 @@ func (s *Server) UpdateTodo(ctx context.Context, req *todolistpb.UpdateTodoReque
 // DeleteTodo request handler
 func (s *Server) DeleteTodo(ctx context.Context, req *todolistpb.DeleteTodoRequest) (*todolistpb.DeleteTodoResponse, error) {
 	fmt.Println("Delete todo request")
+	ctx = db.SetRepository(ctx, s.Repo)
 	todoID := req.GetTodoId()
 
 	if todoID == 0 {
@@ -115,7 +119,7 @@ func (s *Server) DeleteTodo(ctx context.Context, req *todolistpb.DeleteTodoReque
 		)
 	}
 
-	count, err := s.Postgres.Delete(todoID)
+	count, err := db.Delete(ctx, todoID)
 	if err != nil {
 		return nil, status.Errorf(
 			codes.Internal,
@@ -136,8 +140,9 @@ func (s *Server) DeleteTodo(ctx context.Context, req *todolistpb.DeleteTodoReque
 // ListTodos request handler
 func (s *Server) ListTodos(req *todolistpb.ListTodosRequest, stream todolistpb.TodoListService_ListTodosServer) error {
 	fmt.Println("List todos request")
+	ctx := db.SetRepository(context.Background(), s.Repo)
 
-	todoList, err := s.Postgres.List()
+	todoList, err := db.List(ctx)
 	if err != nil {
 		return status.Errorf(
 			codes.Internal,
