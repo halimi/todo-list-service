@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -97,9 +98,15 @@ func listTodos(c todolistpb.TodoListServiceClient) {
 func main() {
 	fmt.Println("Todo List Client")
 
+	host := flag.String("host", "localhost", "Service host name")
+	port := flag.String("port", "5000", "Service port number")
+
+	flag.Parse()
+
+	connStr := fmt.Sprintf("%v:%v", *host, *port)
 	opts := grpc.WithInsecure()
 
-	cc, err := grpc.Dial("localhost:5000", opts)
+	cc, err := grpc.Dial(connStr, opts)
 	if err != nil {
 		log.Fatalf("Could not connect: %v", err)
 	}
